@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cstdint>
 
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x501
@@ -168,7 +169,7 @@ class winsocket_queue
  private:
   fd_set set;
  public:
-  inline void clean() {FD_ZERO(&set);};
+  inline void clean() {FD_ZERO(&set);}
   inline winsocket_queue() {clean();}
   inline ~winsocket_queue() {clean();}
   // Adiciona um socket a uma fila de sockets

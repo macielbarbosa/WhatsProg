@@ -5,7 +5,9 @@
 #include <QLabel>
 #include "modelconversas.h"
 #include "modelmensagens.h"
+#include "novaconversa.h"
 #include "logindialog.h"
+
 
 namespace Ui {
 class WhatsProgMain;
@@ -19,6 +21,9 @@ public:
     explicit WhatsProgMain(QWidget *parent = 0);
     ~WhatsProgMain();
 
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private slots:
     void slotAtualizaBarraStatus();
     void slotAceitaUsuario(const string &IP, const string &login, const string &senha, bool novoUsuario );
@@ -29,12 +34,18 @@ private slots:
     void on_tableViewConversas_activated(const QModelIndex &index);
     void on_tableViewConversas_clicked(const QModelIndex &index);
     void on_lineEditMensagem_returnPressed();
+    void on_actionNova_conversa_triggered();
+    void slotIniciarNovaConversa(const string &usuario);
+    void slotAtualizarMenu(bool conectado);
+    void on_actionWhatsProg_triggered();
+    void on_actionQt_Creator_triggered();
 
 signals:
     void conversasModificada();
     void numMsgConversaModificado(unsigned I);
     void mensagensModificada();
     void statusModificada();
+    void atualizarMenu(bool conectado);
 
 private:
     Ui::WhatsProgMain *ui;
@@ -46,7 +57,9 @@ private:
     QLabel *nomeUsuario;
     QLabel *nomeConversa;
 
+    NovaConversa *novaConversa;
     LoginDialog *loginDialog;
+
 };
 
 #endif // WHATSPROGMAIN_H

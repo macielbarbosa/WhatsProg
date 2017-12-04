@@ -99,9 +99,17 @@
     </property>
     <addaction name="actionApagar_mensagens"/>
    </widget>
+   <widget class="QMenu" name="menuSobre">
+    <property name="title">
+     <string>Sobre</string>
+    </property>
+    <addaction name="actionWhatsProg"/>
+    <addaction name="actionQt_Creator"/>
+   </widget>
    <addaction name="menuUsu_rio"/>
    <addaction name="menuConversa"/>
    <addaction name="menuMensagens"/>
+   <addaction name="menuSobre"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNovo">
@@ -115,6 +123,9 @@
    </property>
   </action>
   <action name="actionDesconectar">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Desconectar</string>
    </property>
@@ -125,23 +136,45 @@
    </property>
   </action>
   <action name="actionSair">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Sair</string>
    </property>
   </action>
   <action name="actionNova_conversa">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Nova conversa ...</string>
    </property>
   </action>
   <action name="actionRemover_conversa">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Remover conversa</string>
    </property>
   </action>
   <action name="actionApagar_mensagens">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Apagar mensagens</string>
+   </property>
+  </action>
+  <action name="actionWhatsProg">
+   <property name="text">
+    <string>WhatsProg</string>
+   </property>
+  </action>
+  <action name="actionQt_Creator">
+   <property name="text">
+    <string>Qt Creator</string>
    </property>
   </action>
  </widget>

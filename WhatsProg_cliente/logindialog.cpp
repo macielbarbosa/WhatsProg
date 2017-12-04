@@ -23,7 +23,7 @@ void LoginDialog::setUsuario(bool NovoUsuario)
     novoUsuario = NovoUsuario;
     setWindowTitle(novoUsuario ? "Usuário - Criar" :
                                  "Usuário - Conectar");
-    ui->lineEditIpServidor->clear();
+    //ui->lineEditIpServidor->clear();
     ui->lineEditNomeUsuario->clear();
     ui->lineEditSenhaUsuario->clear();
     show();

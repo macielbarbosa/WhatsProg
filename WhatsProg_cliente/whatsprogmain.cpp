@@ -1,10 +1,11 @@
 #include <QMessageBox>
+#include "dados_cliente.h"
+#include <QtGui>
 #include <iostream>
 #include "whatsprogmain.h"
 #include "ui_whatsprogmain.h"
 #include "modelconversas.h"
 #include "modelmensagens.h"
-#include "dados_cliente.h"
 #include "socket_whatsprog.h"
 
 using namespace std;
@@ -84,6 +85,7 @@ WhatsProgMain::WhatsProgMain(QWidget *parent) :
 
     // A caixa de dialogo de login
     loginDialog = new LoginDialog(this);
+    novaConversa = new NovaConversa(this);
 
     // As conexoes
     connect(this, SIGNAL (conversasModificada()),
@@ -97,6 +99,12 @@ WhatsProgMain::WhatsProgMain(QWidget *parent) :
 
     connect(loginDialog, SIGNAL (aceitaUsuario(const string, const string, const string, bool)),
             this, SLOT (slotAceitaUsuario(const string, const string, const string, bool)));
+
+    connect(novaConversa, SIGNAL (iniciarNovaConversa(const string)),
+            this, SLOT (slotIniciarNovaConversa(const string)));
+
+    connect(this, SIGNAL (atualizarMenu(bool)),
+            this, SLOT (slotAtualizarMenu(bool)));
 }
 
 WhatsProgMain::~WhatsProgMain()
@@ -170,7 +178,6 @@ void WhatsProgMain::slotAceitaUsuario(const string &IP, const string &login,
         QMessageBox::warning(this, "Erro de conexão", msg.c_str());
         return;
     }
-
     // Envia a msg de conexao para o servidor, atraves do socket
     bool conexaoOK = true;
     if (novoUsuario)
@@ -195,11 +202,12 @@ void WhatsProgMain::slotAceitaUsuario(const string &IP, const string &login,
     }
 
     int32_t cmd;
-    conexaoOK = (s.read_int(cmd,1000*TIMEOUT_WHATSPROG) != sizeof(cmd));
+    conexaoOK = s.read_int(cmd,1000*TIMEOUT_WHATSPROG);
+
     if (conexaoOK) conexaoOK = (cmd == CMD_LOGIN_OK);
     if (!conexaoOK)
     {
-        QMessageBox::warning(this, "Erro de conexão", "Erro na leitura da resposta à conexão.");
+        QMessageBox::warning(this, "Falha no login", "Login ou senha inválida");
         return;
     }
 
@@ -220,6 +228,7 @@ void WhatsProgMain::slotAceitaUsuario(const string &IP, const string &login,
     emit conversasModificada();
     emit mensagensModificada();
     emit statusModificada();
+    emit atualizarMenu(true);
 
     // Informa que o novo usuario estah conectado
     QMessageBox::information(this, "Login", "Usuário conectado.");
@@ -256,10 +265,17 @@ void WhatsProgMain::on_actionDesconectar_triggered()
     emit conversasModificada();
     emit mensagensModificada();
     emit statusModificada();
+    emit atualizarMenu(false);
+
 }
 
 void WhatsProgMain::on_actionSair_triggered()
 {
+    if (s.connected())
+    {
+        s.write_int(CMD_LOGOUT_USER);
+        s.close();
+    }
     QCoreApplication::quit();
 }
 
@@ -347,4 +363,66 @@ void WhatsProgMain::on_lineEditMensagem_returnPressed()
     emit numMsgConversaModificado(DCliente.getIdConversa());
     // Sinaliza que houve alteracao na janela de Mensagens
     emit mensagensModificada();
+}
+
+void WhatsProgMain::on_actionNova_conversa_triggered()
+{
+    novaConversa->setNovaConversa();
+}
+void WhatsProgMain::slotIniciarNovaConversa(const string &usuario){
+    if(usuario==DCliente.getMeuUsuario()) {
+        QMessageBox::warning(this, "Nova conversa", "Você não pode abrir uma conversa consigo mesmo(a)");
+    }
+    bool conexaoOK;
+    int32_t cmd;
+    conexaoOK = s.write_int(CMD_NOVA_CONVERSA);
+    if (!conexaoOK) {
+        QMessageBox::warning(this, "Erro de conexão", "Erro no envio da conexão.");
+    }
+    conexaoOK = s.write_string(usuario);
+    if (!conexaoOK) {
+        QMessageBox::warning(this, "Erro de conexão", "Erro no envio da conexão.");
+    }
+    conexaoOK = s.read_int(cmd);
+    if (conexaoOK) conexaoOK = (cmd==CMD_NOVA_CONVERSA);
+    if (conexaoOK) {
+        string msg = "Nova conversa com "+usuario;
+        QMessageBox::information(this, "Nova conversa", msg.c_str());
+    }
+    else {
+        string msg = "O usuário não existeste";
+        QMessageBox::warning(this, "Nova conversa", msg.c_str());
+    }
+}
+
+void WhatsProgMain::slotAtualizarMenu(bool conectado) {
+    ui->actionApagar_mensagens->setEnabled(conectado);
+    ui->actionDesconectar->setEnabled(conectado);
+    ui->actionNova_conversa->setEnabled(conectado);
+    ui->actionRemover_conversa->setEnabled(conectado);
+}
+
+void WhatsProgMain:: closeEvent(QCloseEvent *event) {
+    event->ignore();
+    if (QMessageBox::Yes == QMessageBox::question(this, "Confirmação",
+                                  "Deseja sair?",
+                                  QMessageBox::Yes|QMessageBox::No))
+    {
+        if (s.connected())
+        {
+            s.write_int(CMD_LOGOUT_USER);
+            s.close();
+        }
+        event->accept();
+    }
+}
+
+void WhatsProgMain::on_actionWhatsProg_triggered () {
+    QMessageBox::about(this,
+                       "Sobre o WhatsProg",
+                       "Trata-se de um mensageiro desenvolvido para o projeto final da disciplina de "
+                       "PROGRAMAÇÃO AVANÇADA.");
+}
+void WhatsProgMain::on_actionQt_Creator_triggered () {
+    QMessageBox::aboutQt(this);
 }

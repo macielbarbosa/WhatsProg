@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+CONFIG += c++11
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = WhatsProg
@@ -31,7 +33,8 @@ SOURCES +=\
     modelmensagens.cpp \
     whatsprogmain.cpp \
     main.cpp \
-    winsocket.cpp
+    winsocket.cpp \
+    novaconversa.cpp
 
 HEADERS  += \
     dados_whatsprog.h \
@@ -42,11 +45,14 @@ HEADERS  += \
     whatsprogmain.h \
     socket_whatsprog.h \
     dados_cliente.h \
-    winsocket.h
+    winsocket.h \
+    novaconversa.h
 
 FORMS    += \
     logindialog.ui \
+    novaconversa.ui \
     whatsprogmain.ui
+
 
 LIBS   += \
     -lWs2_32

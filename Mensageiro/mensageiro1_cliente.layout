@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveTarget name="Debug" />
+	<File name="mensageiro1_cliente.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4328" topLine="66" />
+		</Cursor>
+	</File>
+	<File name="winsocket.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1361" topLine="49" />
+		</Cursor>
+	</File>
+	<File name="winsocket.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8310" topLine="62" />
+		</Cursor>
+		<Folding>
+			<Collapse line="6" />
+			<Collapse line="14" />
+			<Collapse line="17" />
+			<Collapse line="20" />
+			<Collapse line="32" />
+			<Collapse line="34" />
+			<Collapse line="43" />
+			<Collapse line="45" />
+			<Collapse line="60" />
+			<Collapse line="67" />
+			<Collapse line="68" />
+			<Collapse line="100" />
+			<Collapse line="111" />
+			<Collapse line="119" />
+		</Folding>
+	</File>
+</CodeBlocks_layout_file>
