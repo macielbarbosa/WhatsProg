@@ -44,8 +44,8 @@ public:
                        texto(""), status(MSG_INVALIDA) {}
     // Funcoes de consulta/alteracao de parametros
     // As funcoes de alteracao retornam false em caso de erro, true se OK
-    inline uint32_t getId() const {return id;}
-    bool setId(uint32_t I);
+    inline int32_t getId() const {return id;}
+    bool setId(int32_t I);
     inline const string &getRemetente() const {return remetente;}
     bool setRemetente(const string &R);
     inline const string &getDestinatario() const {return destinatario;}

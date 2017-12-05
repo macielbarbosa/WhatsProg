@@ -48,7 +48,7 @@ private:
     int idConversa;
     // A ultima ID utilizada em msg enviada por mim
     // Maior que zero; se igual a 0, nenhuma msg foi enviada ainda
-    uint32_t idMensagem;
+    int32_t idMensagem;
     // Todas as conversas
     vector<Conversa> LC;
 public:

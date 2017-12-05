@@ -372,6 +372,7 @@ void WhatsProgMain::on_actionNova_conversa_triggered()
 void WhatsProgMain::slotIniciarNovaConversa(const string &usuario){
     if(usuario==DCliente.getMeuUsuario()) {
         QMessageBox::warning(this, "Nova conversa", "Você não pode abrir uma conversa consigo mesmo(a)");
+        return;
     }
     bool conexaoOK;
     int32_t cmd;
@@ -380,19 +381,17 @@ void WhatsProgMain::slotIniciarNovaConversa(const string &usuario){
         QMessageBox::warning(this, "Erro de conexão", "Erro no envio da conexão.");
     }
     conexaoOK = s.write_string(usuario);
-    if (!conexaoOK) {
-        QMessageBox::warning(this, "Erro de conexão", "Erro no envio da conexão.");
-    }
     conexaoOK = s.read_int(cmd);
     if (conexaoOK) conexaoOK = (cmd==CMD_NOVA_CONVERSA);
-    if (conexaoOK) {
-        string msg = "Nova conversa com "+usuario;
-        QMessageBox::information(this, "Nova conversa", msg.c_str());
+    if (!conexaoOK) {
+        QMessageBox::warning(this, "Nova conversa", "Usuário não existeste");
+        return;
     }
-    else {
-        string msg = "O usuário não existeste";
-        QMessageBox::warning(this, "Nova conversa", msg.c_str());
-    }
+    DCliente.insertConversa(usuario);
+    QModelIndex modelIndex()
+    modelConversas->data(modelIndex,Qt::DisplayRole);
+    string msg = "Nova conversa com "+usuario;
+    QMessageBox::information(this, "Nova conversa", msg.c_str());
 }
 
 void WhatsProgMain::slotAtualizarMenu(bool conectado) {

@@ -1,6 +1,6 @@
 #include "dados_whatsprog.h"
 
-bool Mensagem::setId(uint32_t I)
+bool Mensagem::setId(int32_t I)
 {
     if (I<=0)
     {
