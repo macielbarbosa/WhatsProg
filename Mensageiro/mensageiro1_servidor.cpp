@@ -143,7 +143,7 @@ DWORD WINAPI servidor(LPVOID lpParameter)
 
   string usuario, senha, msg;
   iter_Client i;
-  int32_t cmd;
+  int32_t cmd, id;
 
   while (!fim)
   {
@@ -202,6 +202,13 @@ DWORD WINAPI servidor(LPVOID lpParameter)
               }
               i->s.write_int(CMD_NOVA_CONVERSA);
               cerr << "Conversa iniciada." << endl;
+              break;
+            }
+            if (CMD_NOVA_MSG) {
+                i->s.read_int(id);
+                i->s.read_string(usuario);
+                i->s.read_string(msg);
+                i->s.write_int(CMD_MSG_RECEBIDA);
             }
             /*iResult = i->s.read_string(usuario);
             if (iResult == SOCKET_ERROR)

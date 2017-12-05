@@ -33,3 +33,37 @@
 	<fstream>
 	<cstdio>
 
+1512505914 source:c:\users\c6-prof\documents\whatsprog\mensageiro\client.cpp
+	<iostream>
+	"client.h"
+	<fstream>
+	<cstdio>
+
+1512505914 c:\users\c6-prof\documents\whatsprog\mensageiro\client.h
+	<iostream>
+	<string>
+	"winsocket.h"
+	"mensageiro.h"
+
+1512505915 c:\users\c6-prof\documents\whatsprog\mensageiro\winsocket.h
+	<iostream>
+	<cstdlib>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<string>
+
+1512505914 c:\users\c6-prof\documents\whatsprog\mensageiro\mensageiro.h
+
+1512505915 source:c:\users\c6-prof\documents\whatsprog\mensageiro\mensageiro1_servidor.cpp
+	<iostream>
+	<string.h>
+	<list>
+	<algorithm>
+	"winsocket.h"
+	"mensageiro.h"
+	"client.h"
+
+1512505915 source:c:\users\c6-prof\documents\whatsprog\mensageiro\winsocket.cpp
+	<iostream>
+	"winsocket.h"
+
