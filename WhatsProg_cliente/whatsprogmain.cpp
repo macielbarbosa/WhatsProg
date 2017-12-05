@@ -363,6 +363,12 @@ void WhatsProgMain::on_lineEditMensagem_returnPressed()
     emit numMsgConversaModificado(DCliente.getIdConversa());
     // Sinaliza que houve alteracao na janela de Mensagens
     emit mensagensModificada();
+    s.write_int(CMD_NOVA_MSG);
+    s.write_int(M.getId());
+    s.write_string(M.getRemetente());
+    s.write_string(M.getTexto());
+    int32_t cmd;
+    s.read_int(cmd);
 }
 
 void WhatsProgMain::on_actionNova_conversa_triggered()
@@ -388,8 +394,7 @@ void WhatsProgMain::slotIniciarNovaConversa(const string &usuario){
         return;
     }
     DCliente.insertConversa(usuario);
-    QModelIndex modelIndex()
-    modelConversas->data(modelIndex,Qt::DisplayRole);
+    emit conversasModificada();
     string msg = "Nova conversa com "+usuario;
     QMessageBox::information(this, "Nova conversa", msg.c_str());
 }

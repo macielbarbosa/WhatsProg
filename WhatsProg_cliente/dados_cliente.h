@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include "dados_whatsprog.h"
 #include "winsocket.h"
+#include <fstream>
 
 using namespace std;
 
@@ -79,6 +80,7 @@ public:
     // As funcoes de alteracao retornam false em caso de erro, true se OK
     inline int getIdConversa() const {return idConversa;}
     bool setIdConversa(int ID);
+    void salvarDados(void) const;
 };
 
 // Os dados das conversas do cliente serao armazenados em uma variavel global

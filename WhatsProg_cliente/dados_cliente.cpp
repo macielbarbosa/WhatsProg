@@ -98,3 +98,6 @@ bool DadosCliente::eraseConversa(unsigned i)
     return true;
 }
 
+void DadosCliente::salvarDados(void) const {
+    return;
+}

@@ -24,7 +24,7 @@
    <item row="0" column="1">
     <widget class="QLineEdit" name="lineEditIpServidor">
      <property name="text">
-      <string>127.0.0.1</string>
+      <string>10.13.0.114</string>
      </property>
     </widget>
    </item>
