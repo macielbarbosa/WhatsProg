@@ -24,7 +24,7 @@
    <item row="0" column="1">
     <widget class="QLineEdit" name="lineEditIpServidor">
      <property name="text">
-      <string>10.13.0.114</string>
+      <string>127.0.0.1</string>
      </property>
     </widget>
    </item>
@@ -36,7 +36,11 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEditNomeUsuario"/>
+    <widget class="QLineEdit" name="lineEditNomeUsuario">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="labelSenhaUsuario">
@@ -46,7 +50,11 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEditSenhaUsuario"/>
+    <widget class="QLineEdit" name="lineEditSenhaUsuario">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">

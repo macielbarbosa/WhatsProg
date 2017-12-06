@@ -20,6 +20,7 @@ class WhatsProgMain : public QMainWindow
 public:
     explicit WhatsProgMain(QWidget *parent = 0);
     ~WhatsProgMain();
+    //void messageBox(const string &tipo, const string &titulo, const string &texto);
 
 protected:
     void closeEvent(QCloseEvent *event);

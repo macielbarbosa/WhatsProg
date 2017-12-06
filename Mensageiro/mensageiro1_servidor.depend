@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1512377402 source:c:\users\jessa\documents\repositórios\whatsprog\mensageiro\mensageiro1_servidor.cpp
+1512594112 source:c:\users\jessa\documents\repositórios\whatsprog\mensageiro\mensageiro1_servidor.cpp
 	<iostream>
 	<string.h>
 	<list>
@@ -8,7 +8,7 @@
 	"mensageiro.h"
 	"client.h"
 
-1512355816 c:\users\jessa\documents\repositórios\whatsprog\mensageiro\winsocket.h
+1512544097 c:\users\jessa\documents\repositórios\whatsprog\mensageiro\winsocket.h
 	<iostream>
 	<cstdlib>
 	<winsock2.h>
@@ -21,13 +21,13 @@
 	<iostream>
 	"winsocket.h"
 
-1512357193 c:\users\jessa\documents\repositórios\whatsprog\mensageiro\client.h
+1512543172 c:\users\jessa\documents\repositórios\whatsprog\mensageiro\client.h
 	<iostream>
 	<string>
 	"winsocket.h"
 	"mensageiro.h"
 
-1512373166 source:c:\users\jessa\documents\repositórios\whatsprog\mensageiro\client.cpp
+1512543407 source:c:\users\jessa\documents\repositórios\whatsprog\mensageiro\client.cpp
 	<iostream>
 	"client.h"
 	<fstream>

@@ -4,3 +4,7 @@ login: jessnunes
 senha: senhajess
 login: essafera
 senha: ferinha
+login: aaaaaa
+senha: aaaaaa
+login: novouser
+senha: usernovo

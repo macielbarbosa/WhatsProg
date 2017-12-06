@@ -48,6 +48,24 @@ typedef enum
   WINSOCKET_CONNECTED=2
 } WINSOCKET_STATE;
 
+enum
+{
+    CMD_NEW_USER=1001,
+    CMD_LOGIN_USER=1002,
+    CMD_LOGIN_OK=1003,
+    CMD_LOGIN_INVALIDO=1004,
+    CMD_NOVA_MSG=1005,
+    CMD_MSG_RECEBIDA=1006,
+    CMD_MSG_ENTREGUE=1007,
+    CMD_MSG_LIDA1=1008,
+    CMD_MSG_LIDA2=1009,
+    CMD_ID_INVALIDA=1010,
+    CMD_USER_INVALIDO=1011,
+    CMD_MSG_INVALIDA=1012,
+    CMD_LOGOUT_USER=1013,
+    CMD_NOVA_CONVERSA=1014
+} ComandoWhatsProg;
+
 // Predefinição das classes
 class winsocket_queue;
 class tcp_winsocket;

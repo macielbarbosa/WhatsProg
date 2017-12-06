@@ -80,6 +80,8 @@ public:
     // As funcoes de alteracao retornam false em caso de erro, true se OK
     inline int getIdConversa() const {return idConversa;}
     bool setIdConversa(int ID);
+    void setMsgStatus(int32_t id, MsgStatus st);
+    void attMsg(int conversaIndex, int32_t id, const string &r);
     void salvarDados(void) const;
 };
 

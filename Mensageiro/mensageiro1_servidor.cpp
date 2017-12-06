@@ -32,24 +32,6 @@ cliente.
 
 ================================================================== */
 
-enum
-{
-    CMD_NEW_USER=1001,
-    CMD_LOGIN_USER=1002,
-    CMD_LOGIN_OK=1003,
-    CMD_LOGIN_INVALIDO=1004,
-    CMD_NOVA_MSG=1005,
-    CMD_MSG_RECEBIDA=1006,
-    CMD_MSG_ENTREGUE=1007,
-    CMD_MSG_LIDA1=1008,
-    CMD_MSG_LIDA2=1009,
-    CMD_ID_INVALIDA=1010,
-    CMD_USER_INVALIDO=1011,
-    CMD_MSG_INVALIDA=1012,
-    CMD_LOGOUT_USER=1013,
-    CMD_NOVA_CONVERSA=1014
-} ComandoWhatsProg;
-
 // Apelidos para uma lista de clientes e para o iterator correspondente
 typedef list<Client> list_Client;
 typedef list_Client::iterator iter_Client;
@@ -142,8 +124,9 @@ DWORD WINAPI servidor(LPVOID lpParameter)
   WINSOCKET_STATUS iResult;
 
   string usuario, senha, msg;
-  iter_Client i;
+  iter_Client i, j;
   int32_t cmd, id;
+  bool ok;
 
   while (!fim)
   {
@@ -197,18 +180,35 @@ DWORD WINAPI servidor(LPVOID lpParameter)
               cerr << "Usuario " << i->getLogin() << ": nova conversa com " << usuario <<endl;
               if(!novo.existente() ){
                 i->s.write_int(CMD_USER_INVALIDO);
+                i->s.write_string(usuario);
                 cerr << "Usuario " << usuario << " nao existe." << endl;
                 break;
               }
               i->s.write_int(CMD_NOVA_CONVERSA);
+              i->s.write_string(usuario);
               cerr << "Conversa iniciada." << endl;
               break;
             }
-            if (CMD_NOVA_MSG) {
-                i->s.read_int(id);
-                i->s.read_string(usuario);
-                i->s.read_string(msg);
-                i->s.write_int(CMD_MSG_RECEBIDA);
+            if (cmd == CMD_NOVA_MSG) {
+              cerr << "NOVA MESSAGEM " << endl;
+              i->s.read_int(id);
+              cerr << "id " <<id <<  endl;
+              i->s.read_string(usuario);
+              cerr << "user " <<usuario <<endl;
+              i->s.read_string(msg);
+              cerr << "msg " << msg<<endl;
+              cerr << i->getLogin() << " para " << usuario << ": " << msg << endl;
+              i->s.write_int(CMD_MSG_RECEBIDA);
+              i->s.write_int(id);
+              for (j=LC.begin(); j!=LC.end(); j++) {
+                if (j->s.connected() && j->getLogin()==usuario){
+                  if(j->enviarMensagem(id,i->getLogin(),msg)){
+                    i->s.write_int(CMD_MSG_ENTREGUE);
+                    i->s.write_int(id);
+                    cerr << "Mensagem entregue" << endl;
+                  }
+                }
+              }
             }
             /*iResult = i->s.read_string(usuario);
             if (iResult == SOCKET_ERROR)

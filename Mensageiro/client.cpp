@@ -61,3 +61,11 @@ bool Client::existente (void) const {
   arq.close();
   return false;
 }
+
+bool Client::enviarMensagem(int32_t id, const string &r, const string &msg) const {
+  s.write_int(CMD_NOVA_MSG);
+  s.write_int(id);
+  s.write_string(r);
+  s.write_string(msg);
+  return true;
+}

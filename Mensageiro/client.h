@@ -23,6 +23,7 @@ public:
   bool cadastrado (void) const;
   bool cadastrar (void) const;
   bool existente (void) const;
+  bool enviarMensagem(int32_t id, const string &r, const string &msg) const;
 
   inline string getLogin(void) const {return login;}
 };

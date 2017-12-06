@@ -16,10 +16,74 @@ using namespace std;
 
 DWORD WINAPI le_msg(LPVOID lpParameter)
 {
-  while (s.connected()) {
-    //falta_fazer();
-  }
-  return 0;
+    int32_t cmd, id;
+    string usuario, msg;
+    bool conversa;
+    while (s.connected()) {
+
+        // recebe o feedback do servidor
+        s.read_int(cmd);
+
+        switch (cmd) {
+            case (CMD_MSG_RECEBIDA): {
+                s.read_int(id);
+                DCliente.setMsgStatus(id,MSG_RECEBIDA);
+                //ModelMensagens::slotAtualizaMensagens();
+                break;
+            }
+            case (CMD_MSG_INVALIDA): {
+                s.read_int(id);
+                DCliente.setMsgStatus(id,MSG_INVALIDA);
+                //ModelMensagens::slotAtualizaMensagens();
+                break;
+            }
+            case (CMD_MSG_ENTREGUE): {
+                s.read_int(id);
+                DCliente.setMsgStatus(id,MSG_ENTREGUE);
+                //ModelMensagens::slotAtualizaMensagens();
+                break;
+            }
+            case (CMD_USER_INVALIDO): {
+                s.read_string(usuario);
+                //WhatsProgMain::messageBox("warning","Nova conversa", "Usuário não existeste");
+                break;
+            }
+            case (CMD_NOVA_CONVERSA): {
+                s.read_string(usuario);
+                break;
+                //DCliente.insertConversa(usuario);
+                /*emit conversasModificada();
+                string msg = "Nova conversa com "+usuario;
+                WhatsProgMain::messageBox("information","Nova conversa", msg.c_str());*/
+            }
+            case (CMD_NOVA_MSG): {
+                s.read_int(id);
+                s.read_string(usuario);
+                s.read_string(msg);
+                conversa = false;
+                unsigned int conversaIndex;
+                for (unsigned int i=0; i<DCliente.size(); i++) {
+                    if (DCliente[i].getCorrespondente()==usuario) {
+                        conversaIndex = i;
+                        conversa = true;
+                    }
+                }
+                if (!conversa) {
+                    DCliente.insertConversa(usuario);
+                    conversaIndex = DCliente.size();
+                }
+                Mensagem M;
+                M.setId(id);
+                M.setRemetente(usuario);
+                M.setDestinatario(DCliente.getMeuUsuario());
+                M.setTexto(msg);
+                DCliente[conversaIndex].insertMessage(M);
+                //DCliente.attMsg(conversaIndex,id,M.getRemetente());
+                break;
+            }
+        }
+    }
+    return 0;
 }
 
 WhatsProgMain::WhatsProgMain(QWidget *parent) :
@@ -354,8 +418,10 @@ void WhatsProgMain::on_lineEditMensagem_returnPressed()
     M.setStatus(MSG_ENVIADA);
 
     // Envia a msg M via socket para o servidor
-
-    // Inclui a msg na base de dados local
+    s.write_int(CMD_NOVA_MSG);
+    s.write_int(M.getId());
+    s.write_string(M.getDestinatario());
+    s.write_string(M.getTexto());
 
     // Acrescenta no final da conversa
     DCliente[DCliente.getIdConversa()].insertMessage(M);
@@ -363,12 +429,8 @@ void WhatsProgMain::on_lineEditMensagem_returnPressed()
     emit numMsgConversaModificado(DCliente.getIdConversa());
     // Sinaliza que houve alteracao na janela de Mensagens
     emit mensagensModificada();
-    s.write_int(CMD_NOVA_MSG);
-    s.write_int(M.getId());
-    s.write_string(M.getRemetente());
-    s.write_string(M.getTexto());
-    int32_t cmd;
-    s.read_int(cmd);
+
+
 }
 
 void WhatsProgMain::on_actionNova_conversa_triggered()
@@ -381,18 +443,11 @@ void WhatsProgMain::slotIniciarNovaConversa(const string &usuario){
         return;
     }
     bool conexaoOK;
-    int32_t cmd;
     conexaoOK = s.write_int(CMD_NOVA_CONVERSA);
     if (!conexaoOK) {
         QMessageBox::warning(this, "Erro de conexão", "Erro no envio da conexão.");
     }
     conexaoOK = s.write_string(usuario);
-    conexaoOK = s.read_int(cmd);
-    if (conexaoOK) conexaoOK = (cmd==CMD_NOVA_CONVERSA);
-    if (!conexaoOK) {
-        QMessageBox::warning(this, "Nova conversa", "Usuário não existeste");
-        return;
-    }
     DCliente.insertConversa(usuario);
     emit conversasModificada();
     string msg = "Nova conversa com "+usuario;
@@ -430,3 +485,12 @@ void WhatsProgMain::on_actionWhatsProg_triggered () {
 void WhatsProgMain::on_actionQt_Creator_triggered () {
     QMessageBox::aboutQt(this);
 }
+
+/*void WhatsProgMain::messageBox(const string &tipo, const string &titulo, const string &texto){
+    if(tipo=="warning"){
+        QMessageBox::warning(this, titulo.c_str(), texto.c_str());
+    }
+    if(tipo=="information"){
+        QMessageBox::information(this, titulo.c_str(), texto.c_str());
+    }
+}*/

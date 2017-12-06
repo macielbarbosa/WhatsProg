@@ -85,6 +85,7 @@ bool DadosCliente::insertConversa(const string &U)
     Conversa C;
     if (!C.setUsuario(U)) return false; // Erro na atribuicao do nome da conversa
     LC.push_back(C);
+    //emit conversasModificada();
     return true;
 }
 
@@ -98,6 +99,26 @@ bool DadosCliente::eraseConversa(unsigned i)
     return true;
 }
 
+void DadosCliente::setMsgStatus(int32_t id, MsgStatus st) {
+    for (unsigned int i=0; i<LC.size(); i++) {
+        for (unsigned int j=0; j<LC[i].size(); j++) {
+            if (LC[i][j].getRemetente()==meuUsuario && LC[i][j].getId() == id) {
+                LC[i][j].setStatus(st);
+                /*if(st==MSG_ENTREGUE){
+                    LC[i].getNumMsgsEntregues();
+                }*/
+            }
+        }
+    }
+}
+
+void DadosCliente::attMsg(int conversaIndex, int32_t id, const string &r) {
+    for (unsigned int i=0; i<LC[conversaIndex].size(); i++) {
+        if (LC[conversaIndex][i].getRemetente()!=meuUsuario && LC[conversaIndex][i].getId() == id) {
+             LC[conversaIndex][i].setRemetente(r);
+        }
+    }
+}
 void DadosCliente::salvarDados(void) const {
     return;
 }
